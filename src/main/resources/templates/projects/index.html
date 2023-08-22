@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xnlns:th="https://www.thymeleaf.org/" xmlns:xnlns="http://www.w3.org/1999/xhtml">;
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h1>
+<table>
+    <thead>
+        <tr>
+            <td>
+                KOD
+            </td>
+            <td>
+                NAZWA
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+    <tr th:each="project: ${projects}">
+        <td th:text="${project.code}"/>
+        <td th:text="${project.name}"/>
+    </tr>
+    </tbody>
+
+</table>
+
+</h1>
+</body>
+</html>
