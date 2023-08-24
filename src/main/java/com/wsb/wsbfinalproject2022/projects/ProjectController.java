@@ -1,10 +1,7 @@
 package com.wsb.wsbfinalproject2022.projects;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -22,21 +19,39 @@ public class ProjectController {
     ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView("projects/index");
 
-            modelAndView.addObject("projects",projectRepository.findAll());
+        modelAndView.addObject("projects", projectRepository.findAll());
 
         return modelAndView;
     }
+
     @GetMapping("/create")
-    ModelAndView create(){
+    ModelAndView create() {
         ModelAndView modelAndView = new ModelAndView("projects/create");
 
         Project project = new Project();
         modelAndView.addObject("project", project);
         return modelAndView;
     }
+
     @PostMapping("/save")
-    String save(@ModelAttribute Project project){
+    String save(@ModelAttribute Project project) {
+        Boolean isNew = project.getId() == null;
         projectRepository.save(project);
-        return "redirect:/projects";
+
+        if (isNew) {
+            return "redirect:/projects";
+        } else {
+            return "redirect:/projects/edit/" + project.getId();
+        }
+
+    }
+
+    @GetMapping("/edit/{id}")
+    ModelAndView edit(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("projects/create");
+
+        Project project =  projectRepository.findById(id).orElse(null);
+        modelAndView.addObject("project", project);
+        return modelAndView;
     }
 }
