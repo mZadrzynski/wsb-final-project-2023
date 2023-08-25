@@ -54,4 +54,9 @@ public class ProjectController {
         modelAndView.addObject("project", project);
         return modelAndView;
     }
+    @GetMapping("/delete/{id}")
+    String delete(@PathVariable Long id) {
+        projectRepository.deleteById(id);
+        return "redirect:/projects";
+    }
 }
