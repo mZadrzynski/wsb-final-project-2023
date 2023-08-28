@@ -37,9 +37,10 @@ public class PersonUserDetails implements UserDetails {
         this.authorities = authorities;
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return (Collection<? extends GrantedAuthority>) authorities;
+        return null;
     }
 
     @Override
