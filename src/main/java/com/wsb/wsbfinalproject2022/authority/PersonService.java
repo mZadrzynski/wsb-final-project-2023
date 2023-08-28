@@ -12,12 +12,6 @@ public class PersonService {
         this.authorityRepository = authorityRepository;
         this.personRepository = personRepository;
     }
-    public void prepareAdminUser() { // TODO: Nie twórzmy użytkownika, jeśli już taki istnieje
-// TODO: Login i hasło weźmy ze zmiennej
-        Person person = new Person("admin", "123456", "Administrator");
-        List<Authority> authorities = authorityRepository.findAll();
-        person.setAuthorities(new HashSet<>(authorities));
-        savePerson(person);
-    }
+
     private void savePerson(Person person) { personRepository.save(person); } // TODO: Hash hasła
 }
