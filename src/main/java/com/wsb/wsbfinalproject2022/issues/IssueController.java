@@ -2,7 +2,9 @@ package com.wsb.wsbfinalproject2022.issues;
 
 
 import com.wsb.wsbfinalproject2022.projects.ProjectRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,8 +34,16 @@ public class IssueController {
     }
 
     @PostMapping("/save")
-    String save(@ModelAttribute Issue issue){
-        issueRepository.save(issue);
-        return "redirect:/projects";
+    ModelAndView save(@ModelAttribute @Valid Issue issue, BindingResult bindingResult){
+        ModelAndView modelAndView = new ModelAndView("issues/create");
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("issue", issue);
+            modelAndView.addObject("projects", projectRepository.findAll());
+            return modelAndView;
+        }
+
+        modelAndView.setViewName("redirect:/projects");
+        return modelAndView;
     }
 }

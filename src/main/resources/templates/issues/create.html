@@ -36,14 +36,23 @@
             <label for="issue-name" class="form-label">
                 Nazwa
             </label>
-            <input type="text" class="form-control" id="issue-name" th:field="*{title}">
+            <input type="text"
+                   th:class="'form-control '+ ${#fields.hasErrors('title') ? 'is-invalid' : ''}"
+                   id="issue-name"
+                   th:field="*{title}">
         </div>
+
+        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger"></span>
+
         <div class="mb-3">
             <label for="issue-code" class="form-label">
                 Kod
             </label>
             <input type="text" class="form-control" id="issue-code" th:field="*{code}">
         </div>
+
+        <span th:if="${#fields.hasErrors('code')}" th:errors="*{code}" class="text-danger"></span>
+
         <div class="mb-3">
             <label for="demo" class="form-label">
                 Typ zgłoszenia
