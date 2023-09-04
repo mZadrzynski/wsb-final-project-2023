@@ -1,7 +1,9 @@
 package com.wsb.wsbfinalproject2022.authority;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,19 +17,23 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
 
 private PersonRepository personRepository;
 
+    @Autowired
+    UserDetailServiceImpl userDetailsService;
+
     @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder encoder){
-       UserDetails admin = User.withUsername("marcin")
-               .password(encoder.encode("asd12"))
-               .roles("ADMIN")         .build();
-       return new InMemoryUserDetailsManager(admin);
-       }
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+
+        return authProvider;
+    }
 
 
     @Bean
@@ -36,7 +42,7 @@ private PersonRepository personRepository;
                 .authorizeHttpRequests()
                 .requestMatchers("/login").permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers("projects/**", "issues/**").authenticated()
+                .authorizeHttpRequests().requestMatchers("projects/**", "issues/**","logout/").authenticated()
                 .and().formLogin()
                 .and().build();
 
@@ -45,4 +51,6 @@ private PersonRepository personRepository;
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+
 }
