@@ -13,20 +13,23 @@
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a th:href="@{'/projects'}"class="nav-link px-2 text-secondary">Srona głowna</a></li>
+                <li><a th:href="@{'/projects'}" class="nav-link px-2 text-red">Srona głowna</a></li>
                 <li><a th:href="@{'/issues/list'}" class="nav-link px-2 text-white">Zgłoszenia</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">About</a></li>
-                <li><a th:href="@{'/logout'}"class="nav-link px-2 text-white">Wyloguj</a></li>
+                <li><a href="#" class="nav-link px-2 text-white">Moje Konto</a></li>
+                <li><a th:href="@{'/users/users'}" class="nav-link px-2 text-white">Użytkownicy</a></li>
             </ul>
 
+            <!--
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                 <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
             </form>
+            -->
 
             <div class="text-end">
-                <button type="button" class="btn btn-outline-light me-2">Login</button>
-                <button type="button" class="btn btn-warning">Sign-up</button>
+                <button type="button" class="btn btn-outline-light me-2">
+                    <a th:href="@{'/logout'}"class="nav-link px-2 text-white">Wyloguj</a>
+                </button>
+                <!--<button type="button" class="btn btn-warning">Sign-up</button>-->
             </div>
         </div>
     </div>

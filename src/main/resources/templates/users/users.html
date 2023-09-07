@@ -1,10 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz.thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}" xmlns:xnlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
 </head>
 <body>
+<section layout:fragment="custom-content">
+    <div class="container">
+        <h1>
+            Uzytkownicy
+        </h1>
+        <div>
+            <a th:href="@{/users/create}" class="btn btn-secondary">
+                Dodaj uzytkownika
+            </a>
+        </div>
 
+        <table class="table">
+            <thead>
+            <tr>
+                <th th:text="#{person.userName}">User Name</th>
+                <th th:text="#{person.realName}">Real Name</th>
+                <th th:text="#{person.email}">Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="person: ${persons}">
+                <td th:text="${person.username}"/>
+                <td th:text="${person.realName}"/>
+                <td th:text="${person.email}"/>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
 </body>
+
 </html>

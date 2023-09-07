@@ -40,7 +40,7 @@ private PersonRepository personRepository;
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests().requestMatchers("/login").permitAll()
-                .and().authorizeHttpRequests().requestMatchers("/projects/**", "/logout").authenticated()
+                .and().authorizeHttpRequests().requestMatchers("/projects/**", "/logout", "/users/**").authenticated()
                 .and().authorizeHttpRequests().requestMatchers( "/issues/**").hasAuthority("ROLE_ADMIN")
                 .and().formLogin()
                 .loginProcessingUrl("/login")
