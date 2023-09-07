@@ -1,6 +1,8 @@
 package com.wsb.wsbfinalproject2022.issues;
 
 
+import com.wsb.wsbfinalproject2022.authority.PersonRepository;
+import com.wsb.wsbfinalproject2022.projects.Project;
 import com.wsb.wsbfinalproject2022.projects.ProjectRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -18,9 +20,15 @@ public class IssueController {
     private final ProjectRepository projectRepository;
     private final IssueRepository issueRepository;
 
-    public IssueController(ProjectRepository projectRepository, IssueRepository issueRepository) {
+    private final PersonRepository personRepository;
+
+
+
+    public IssueController(ProjectRepository projectRepository, IssueRepository issueRepository, PersonRepository personRepository) {
         this.projectRepository = projectRepository;
         this.issueRepository = issueRepository;
+        this.personRepository = personRepository;
+
     }
 
     @GetMapping("/create")
@@ -30,20 +38,44 @@ public class IssueController {
         Issue issue = new Issue();
         modelAndView.addObject("issue", issue);
         modelAndView.addObject("projects", projectRepository.findAll());
+        modelAndView.addObject("persons",personRepository.findAll());
         return modelAndView;
     }
 
     @PostMapping("/save")
-    ModelAndView save(@ModelAttribute @Valid Issue issue, BindingResult bindingResult){
-        ModelAndView modelAndView = new ModelAndView("issues/create");
+    String save(@ModelAttribute Issue issue) {
+        Boolean isNew = issue.getId() == null;
+        issueRepository.save(issue);
 
-        if (bindingResult.hasErrors()) {
-            modelAndView.addObject("issue", issue);
-            modelAndView.addObject("projects", projectRepository.findAll());
-            return modelAndView;
+        if (isNew) {
+            return "redirect:/projects";
+        } else {
+            return "redirect:/projects/edit/" + issue.getId();
         }
 
-        modelAndView.setViewName("redirect:/projects");
+    }
+
+//    @PostMapping("/save")
+//    ModelAndView save(@ModelAttribute @Valid Issue issue, BindingResult bindingResult){
+//        ModelAndView modelAndView = new ModelAndView("issues/create");
+//
+//        if (bindingResult.hasErrors()) {
+//            modelAndView.addObject("issue", issue);
+//            modelAndView.addObject("projects", projectRepository.findAll());
+//            modelAndView.addObject("persons",personRepository.findAll());
+//            return modelAndView;
+//        }
+//
+//        modelAndView.setViewName("redirect:/projects");
+//        issueRepository.save(issue);
+//        return modelAndView;
+//    }
+
+    @GetMapping("/list")
+    ModelAndView list() {
+        ModelAndView modelAndView = new ModelAndView("issues/list");
+        modelAndView.addObject("issues", issueRepository.findAll());
+        modelAndView.addObject("persons",personRepository.findAll());
         return modelAndView;
     }
 }

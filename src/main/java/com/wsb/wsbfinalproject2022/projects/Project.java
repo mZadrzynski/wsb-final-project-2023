@@ -1,9 +1,12 @@
 package com.wsb.wsbfinalproject2022.projects;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.wsb.wsbfinalproject2022.authority.Person;
+import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 @Data
@@ -13,9 +16,24 @@ public class Project {
     @GeneratedValue
     private Long id;
 
+    @Column(nullable = false)
     private String Name;
+
+    @Column(nullable = false, unique = true)
     private String Code;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
+
+    @Column(nullable = false)
     private Boolean enabled = true;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(nullable = false)
+    private Date dateCreated;
+
+    @ManyToOne
+    @JoinColumn(name = "creator_id", nullable = false)
+    private Person person;
 
 }
