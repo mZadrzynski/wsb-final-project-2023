@@ -16,21 +16,25 @@ import java.util.Set;
 })
 public class Person {
     @Id
-
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
 
     @NotBlank
+    @Column
     private String username;
 
     @NotBlank
     @Email
+    @Column
     private String email;
 
     @NotBlank
+    @Column
     private String password;
 
     @NotBlank
+    @Column
     private String realName;
 
 

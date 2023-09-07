@@ -39,11 +39,12 @@ private PersonRepository personRepository;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/login").permitAll()
-                .and()
-                .authorizeHttpRequests().requestMatchers("projects/**", "issues/**","logout/").authenticated()
+                .authorizeHttpRequests().requestMatchers("/login").permitAll()
+                .and().authorizeHttpRequests().requestMatchers("/projects/**", "/logout").authenticated()
+                .and().authorizeHttpRequests().requestMatchers( "/issues/**").hasAuthority("ROLE_ADMIN")
                 .and().formLogin()
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/projects", true)
                 .and().build();
 
     }

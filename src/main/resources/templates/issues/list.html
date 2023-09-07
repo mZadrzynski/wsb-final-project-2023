@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz.thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}" xmlns:xnlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+</head>
+<body>
+<section layout:fragment="custom-content">
+  <div class="container">
+    <h1>
+      Zgłoszenia
+    </h1>
+    <div>
+      <a th:href="@{/issues/create}" class="btn btn-secondary">
+        Nowe zgłoszenie
+      </a>
+    </div>
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th th:text="#{issue.title}">Name</th>
+        <th th:text="#{issue.code}">Code</th>
+        <th th:text="#{issue.project}">Project</th>
+        <th th:text="#{issue.content}">Content</th>
+        <th th:text="#{issue.creator}">Creator</th>
+        <th th:text="#{issue.assignee}">Assignee</th>
+        <th th:text="#{issue.edit}">Edit</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="issue: ${issues}">
+        <td th:text="${issue.title}"/>
+        <td th:text="${issue.code}"/>
+        <td th:text="${issue.project.name}"/>
+        <td th:text="${issue.content}"/>
+        <td th:text="${issue.person.realName}"/>
+        <td th:text="${issue.assignee.realName}"/>
+        <td>
+          <a th:href="@{'/issue/edit/' + ${issue.id}}" class="btn btn-secondary">
+            Edytuj
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+  </body>
+
+</html>
