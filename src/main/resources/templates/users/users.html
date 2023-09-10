@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="en" layout:decorate="~{layouts/mainLayout}"
       xmlns:layout="http://www.ultraq.net.nz.thymeleaf/layout"
-      layout:decorate="~{layouts/mainLayout}" xmlns:xnlns="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Użytkownicy</title>
@@ -14,6 +13,7 @@
         <h1>
             Uzytkownicy
         </h1>
+
         <div>
             <a th:href="@{/users/create}" class="btn btn-secondary">
                 Dodaj uzytkownika
@@ -42,6 +42,7 @@
             </tr>
             </tbody>
         </table>
+
     </div>
 </section>
 </body>

@@ -54,7 +54,6 @@ public class ProjectController {
         } else {
             return "redirect:/projects/edit/" + project.getId();
         }
-
     }
 
     @GetMapping("/edit/{id}")

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz.thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}" xmlns:xnlns="http://www.w3.org/1999/xhtml"
+      xmlns:type="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Create User</title>
+
+</head>
+<body>
+<section layout:fragment="custom-content">
+  <div class="container">
+    <h1 th:if="${person.id == null}">
+      <center>Nowy uzytkownika</center>
+    </h1>
+    <h1 th:if="${person.id != null}">
+      <center>Edycja uzytkownika <span th:text="${person.username}"></span></center>
+    </h1>
+    <form th:action="@{/users/save}" th:object="${person}" method="post">
+      <table class="table-sub-heading-color">
+        <thead>
+        <tr>
+          <th scope="col">Dane użytkownika</th>
+          <th scope="col">Uprawnienia</th>
+        </thead>
+        <tbody>
+        <tr><td>
+          <input type="hidden" th:field="*{id}">
+          <div class="mb-3">
+            <label for="user-name" class="form-label">
+              Nazwa uzytkownika
+            </label>
+            <input type="text" class="form-control" id="user-name" th:field="*{username}">
+          </div>
+          <div class="mb-3">
+            <label for="user-realName" class="form-label">
+              Imie i Nazwisko
+            </label>
+            <input type="text" class="form-control" id="user-realName" th:field="*{realName}">
+          </div>
+          <div class="mb-3">
+            <label for="user-password" class="form-label">
+              Haslo
+            </label>
+            <input type="password" class="form-control" id="user-password" th:field="*{password}">
+          </div>
+          <div class="mb-3">
+            <label for="user-email" class="form-label">
+              Email
+            </label>
+            <input type="email" class="form-control" id="user-email" th:field="*{email}">
+          </div>
+
+        </td>
+          <td>
+            <button type="submit" class="btn btn-primary">Zapisz</button>
+
+
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+
+</section>
+</body>
+</html>

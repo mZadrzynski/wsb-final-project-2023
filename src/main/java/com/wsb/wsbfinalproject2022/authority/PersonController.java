@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -83,17 +84,23 @@ public class PersonController {
         modelAndView.addObject("roles", roleRepository.findAll());
         modelAndView.addObject("person", person);
         return modelAndView;
-
     }
 
-
+//    @GetMapping("/account/{id}")
+//    ModelAndView account(@ModelAttribute Long id) {
+//        ModelAndView modelAndView = new ModelAndView("users/account");
+//
+//        Person person = personRepository.findById(id).orElse(null);
+//        modelAndView.addObject("roles", roleRepository.findAll());
+//        modelAndView.addObject("person", person);
+//        return modelAndView;
+//    }
 
     protected void savePerson(Person person) {
         String hashedPassword = new BCryptPasswordEncoder().encode(person.password);
         person.setPassword(hashedPassword);
         personRepository.save(person);
     }
-
 
 
 }

@@ -7,10 +7,7 @@ import com.wsb.wsbfinalproject2022.projects.ProjectRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -52,6 +49,16 @@ public class IssueController {
             return "redirect:/projects/edit/" + issue.getId();
         }
 
+    }
+    @GetMapping("/edit/{id}")
+    ModelAndView edit(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("issues/create");
+
+        Issue issue =  issueRepository.findById(id).orElse(null);
+        modelAndView.addObject("issue", issue);
+        modelAndView.addObject("projects", projectRepository.findAll());
+        modelAndView.addObject("persons",personRepository.findAll());
+        return modelAndView;
     }
 
 //    @PostMapping("/save")

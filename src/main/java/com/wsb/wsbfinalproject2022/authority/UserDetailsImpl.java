@@ -1,8 +1,10 @@
 package com.wsb.wsbfinalproject2022.authority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -37,6 +39,8 @@ public class UserDetailsImpl implements UserDetails {
         this.password = password;
         this.authorities = authorities;
     }
+
+
 
     public static UserDetailsImpl build(Person person) {
         List<GrantedAuthority> authorities = person.getRoles().stream()
