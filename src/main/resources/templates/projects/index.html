@@ -12,13 +12,53 @@
     <h1>
         Projekty
     </h1>
-    <div>
-        <a th:href="@{/projects/create}" class="btn btn-secondary">
-            Nowy projekt
-        </a>
+        <table>
+            <tbody>
+            <tr>
+                <td>
+                    <div class="col">
+                        <a th:href="@{/projects/create}" class="btn btn-secondary">
+                            Nowy projekt
+                        </a>
+                    </div>
+                </td>
+                <td>
+
+                    <form th:action="@{/projects}" th:object="${filter}" class="row">
+                        <div class="col">
+                            <input th:field="*{name}"
+                                   class="form-control" id="search"/>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-secondary" type="submit" th:text="#{common.search}"></button>
+                        </div>
+                        <div clas="col">
+                            <select th:field="*{creator}"
+                                    class="form-control">
+                                <option th:value="${null}" th:text="#{project.creator}"></option>
+                                <option th:each ="person : ${creators}"
+                                        th:value="${person.id}"
+                                        th:text="${person.username}"></option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input th:field="*{globalSearch}"
+                            class="form-control"
+                            th:placeholder="common.globalSearch"/>
+
+                        </div>
+                        <div class="col">
+                            <a th:href="@{/projects}" class="btn btn-secondary" th:text="#{common.clear}"></a>
+                        </div>
+                        </form>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
-    <table class="table">
+    <table class="table table-hover">
         <thead>
         <tr>
             <th th:text="#{project.name}">Name</th>
@@ -30,8 +70,8 @@
         </thead>
         <tbody>
         <tr th:each="project: ${projects}">
-            <td th:text="${project.code}"/>
             <td th:text="${project.name}"/>
+            <td th:text="${project.code}"/>
             <td th:text="${#dates.format(project.dateCreated, 'dd/MM/yyyy')}"/>
             <td th:text="${project.person.username}"/>
             <td>

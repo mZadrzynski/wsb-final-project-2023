@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="en" layout:decorate="~{layouts/mainLayout}"
       xmlns:layout="http://www.ultraq.net.nz.thymeleaf/layout"
-      layout:decorate="~{layouts/mainLayout}" xmlns:xnlns="http://www.w3.org/1999/xhtml">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Użytkownicy</title>
 
 </head>
 <body>
@@ -13,18 +13,20 @@
         <h1>
             Uzytkownicy
         </h1>
+
         <div>
             <a th:href="@{/users/create}" class="btn btn-secondary">
                 Dodaj uzytkownika
             </a>
         </div>
 
-        <table class="table">
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th th:text="#{person.userName}">User Name</th>
                 <th th:text="#{person.realName}">Real Name</th>
                 <th th:text="#{person.email}">Email</th>
+                <th th:text="#{common.edit}">Edit</th>
             </tr>
             </thead>
             <tbody>
@@ -32,11 +34,16 @@
                 <td th:text="${person.username}"/>
                 <td th:text="${person.realName}"/>
                 <td th:text="${person.email}"/>
+                <td>
+                    <a th:href="@{'/users/edit/' + ${person.id}}" class="btn btn-secondary">
+                        Edytuj
+                    </a>
+                </td>
             </tr>
             </tbody>
         </table>
+
     </div>
 </section>
 </body>
-
 </html>

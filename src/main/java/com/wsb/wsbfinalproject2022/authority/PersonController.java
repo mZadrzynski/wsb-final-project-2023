@@ -1,19 +1,23 @@
 package com.wsb.wsbfinalproject2022.authority;
 
+import com.wsb.wsbfinalproject2022.projects.Project;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
-import java.util.Optional;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/users")
@@ -22,10 +26,10 @@ public class PersonController {
     private final PersonRepository personRepository;
     private final RoleRepository roleRepository;
 
+
     public PersonController(PersonRepository personRepository, RoleRepository roleRepository) {
         this.personRepository = personRepository;
         this.roleRepository = roleRepository;
-
     }
 
 
@@ -42,26 +46,61 @@ public class PersonController {
     @GetMapping("/users")
     ModelAndView users() {
         ModelAndView modelAndView = new ModelAndView("users/users");
-        modelAndView.addObject("persons",personRepository.findAll());
-        modelAndView.addObject("roles",roleRepository.findAll());
+        modelAndView.addObject("persons", personRepository.findAll());
+        modelAndView.addObject("roles", roleRepository.findAll());
         return modelAndView;
     }
 
-    @GetMapping("/create")
     //@Secured("ROLE_CREATE_USER")
+    @GetMapping("/create")
     ModelAndView create() {
         ModelAndView modelAndView = new ModelAndView("users/create");
-        modelAndView.addObject("role", new Role());
         modelAndView.addObject("person", new Person());
-        Optional<Role> roles = roleRepository.findByName(RoleType.ROLE_ADMIN);
+        modelAndView.addObject("persons", personRepository.findAll());
+        modelAndView.addObject("roles", roleRepository.findAll());
         return modelAndView;
     }
 
     @PostMapping("/save")
-    ModelAndView saveUser(@ModelAttribute Person person, @ModelAttribute Role role) {
+    ModelAndView saveUser(@ModelAttribute @Valid Person person, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
-        personRepository.save(person);
-        roleRepository.save(role);
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("users/create");
+            modelAndView.addObject("authorities", roleRepository.findAll());
+            modelAndView.addObject("person", person);
+            return modelAndView;
+        }
+        savePerson(person);
+        modelAndView.setViewName("redirect:/users/users");
+
         return modelAndView;
     }
+
+    @GetMapping("/edit/{id}")
+    ModelAndView edit(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("users/create");
+
+        Person person = personRepository.findById(id).orElse(null);
+        modelAndView.addObject("roles", roleRepository.findAll());
+        modelAndView.addObject("person", person);
+        return modelAndView;
+    }
+
+    @GetMapping("/account/{id}")
+    ModelAndView account(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("users/create");
+
+        Person person = personRepository.findById(id).orElse(null);
+        modelAndView.addObject("roles", roleRepository.findAll());
+        modelAndView.addObject("person", person);
+        return modelAndView;
+    }
+
+    protected void savePerson(Person person) {
+        String hashedPassword = new BCryptPasswordEncoder().encode(person.password);
+        person.setPassword(hashedPassword);
+        personRepository.save(person);
+    }
+
+
 }

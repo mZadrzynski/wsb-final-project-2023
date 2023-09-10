@@ -10,16 +10,34 @@
 <body>
 <section layout:fragment="custom-content">
   <div class="container">
-    <h1>
-      Zgłoszenia
-    </h1>
-    <div>
-      <a th:href="@{/issues/create}" class="btn btn-secondary">
-        Nowe zgłoszenie
-      </a>
+    <table>
+      <tbody>
+      <tr>
+        <td>
+          <div class="col">
+            <a th:href="@{/issues/create}" class="btn btn-secondary">
+              Nowe zgłoszenie
+            </a>
+          </div>
+        </td>
+        <td>
+          <form th:action="@{/issues/list}" th:object="${filter}">
+            <div class="col">
+              <input th:field="*{title}"
+                     class="form-control" id="search"/>
+            </div>
+            <div class="col">
+              <button class="btn btn-secondary" type="submit" th:text="#{common.search}"></button>
+            </div>
+
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
     </div>
 
-    <table class="table">
+    <table class="table table-hover">
       <thead>
       <tr>
         <th th:text="#{issue.title}">Name</th>
@@ -40,7 +58,7 @@
         <td th:text="${issue.person.realName}"/>
         <td th:text="${issue.assignee.realName}"/>
         <td>
-          <a th:href="@{'/issue/edit/' + ${issue.id}}" class="btn btn-secondary">
+          <a th:href="@{'/issues/edit/' + ${issue.id}}" class="btn btn-secondary">
             Edytuj
           </a>
         </td>
