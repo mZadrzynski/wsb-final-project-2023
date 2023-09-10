@@ -10,13 +10,31 @@
 <body>
 <section layout:fragment="custom-content">
   <div class="container">
-    <h1>
-      Zgłoszenia
-    </h1>
-    <div>
-      <a th:href="@{/issues/create}" class="btn btn-secondary">
-        Nowe zgłoszenie
-      </a>
+    <table>
+      <tbody>
+      <tr>
+        <td>
+          <div class="col">
+            <a th:href="@{/issues/create}" class="btn btn-secondary">
+              Nowe zgłoszenie
+            </a>
+          </div>
+        </td>
+        <td>
+          <form th:action="@{/issues/list}" th:object="${filter}">
+            <div class="col">
+              <input th:field="*{title}"
+                     class="form-control" id="search"/>
+            </div>
+            <div class="col">
+              <button class="btn btn-secondary" type="submit" th:text="#{common.search}"></button>
+            </div>
+
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
     </div>
 
     <table class="table table-hover">

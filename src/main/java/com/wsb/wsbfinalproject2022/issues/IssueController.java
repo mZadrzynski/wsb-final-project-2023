@@ -2,11 +2,10 @@ package com.wsb.wsbfinalproject2022.issues;
 
 
 import com.wsb.wsbfinalproject2022.authority.PersonRepository;
-import com.wsb.wsbfinalproject2022.projects.Project;
+import com.wsb.wsbfinalproject2022.projects.ProjectFilter;
 import com.wsb.wsbfinalproject2022.projects.ProjectRepository;
-import jakarta.validation.Valid;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,14 +16,15 @@ public class IssueController {
     private final ProjectRepository projectRepository;
     private final IssueRepository issueRepository;
     private final PersonRepository personRepository;
+    private final IssueService issueService;
 
 
 
-    public IssueController(ProjectRepository projectRepository, IssueRepository issueRepository, PersonRepository personRepository) {
+    public IssueController(ProjectRepository projectRepository, IssueRepository issueRepository, PersonRepository personRepository, IssueService issueService) {
         this.projectRepository = projectRepository;
         this.issueRepository = issueRepository;
         this.personRepository = personRepository;
-
+        this.issueService = issueService;
     }
 
     @GetMapping("/create")
@@ -61,27 +61,13 @@ public class IssueController {
         return modelAndView;
     }
 
-//    @PostMapping("/save")
-//    ModelAndView save(@ModelAttribute @Valid Issue issue, BindingResult bindingResult){
-//        ModelAndView modelAndView = new ModelAndView("issues/create");
-//
-//        if (bindingResult.hasErrors()) {
-//            modelAndView.addObject("issue", issue);
-//            modelAndView.addObject("projects", projectRepository.findAll());
-//            modelAndView.addObject("persons",personRepository.findAll());
-//            return modelAndView;
-//        }
-//
-//        modelAndView.setViewName("redirect:/projects");
-//        issueRepository.save(issue);
-//        return modelAndView;
-//    }
 
     @GetMapping("/list")
-    ModelAndView list() {
+    ModelAndView list(@ModelAttribute IssueFilter filter) {
         ModelAndView modelAndView = new ModelAndView("issues/list");
         modelAndView.addObject("issues", issueRepository.findAll());
         modelAndView.addObject("persons",personRepository.findAll());
+        modelAndView.addObject("filter", filter);
         return modelAndView;
     }
 }
