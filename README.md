@@ -18,3 +18,11 @@ Dodane funkcjonalnosci:
 #15 Przygotowanie formularza zgłoszeń
 
 #17 Dodanie walicacji zgłoszeń
+
+#19 Poprawa wygladu widokow
+
+#21 Dodanie zarzadzania urzytkownikami
+
+#22 Dodanie filtrowania
+
+#23 wysyłanie maila
