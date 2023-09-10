@@ -1,14 +1,13 @@
 package com.wsb.wsbfinalproject2022.projects;
 
-import com.wsb.wsbfinalproject2022.authority.Person;
-import com.wsb.wsbfinalproject2022.authority.PersonController;
 import com.wsb.wsbfinalproject2022.authority.PersonRepository;
-import com.wsb.wsbfinalproject2022.authority.RoleType;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.parameters.P;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/projects")
@@ -16,19 +15,21 @@ public class ProjectController {
 
     private final ProjectRepository projectRepository;
     private final PersonRepository personRepository;
+    final private ProjectService projectService;
 
-    public ProjectController(ProjectRepository projectRepository, PersonRepository personRepository) {
+    public ProjectController(ProjectRepository projectRepository, PersonRepository personRepository, ProjectService projectService) {
         this.projectRepository = projectRepository;
         this.personRepository = personRepository;
-
+        this.projectService = projectService;
     }
 
     //TODO: @secured
     @GetMapping()
-    ModelAndView index() {
+    ModelAndView index(@ModelAttribute ProjectFilter filter) {
         ModelAndView modelAndView = new ModelAndView("projects/index");
-
-        modelAndView.addObject("projects", projectRepository.findAll());
+        modelAndView.addObject("projects", projectRepository.findAll(filter.buildQuery()));
+        modelAndView.addObject("creators", projectService.findAll());
+        modelAndView.addObject("filter", filter);
 
         return modelAndView;
     }
@@ -65,6 +66,7 @@ public class ProjectController {
         modelAndView.addObject("persons",personRepository.findAll());
         return modelAndView;
     }
+
     @GetMapping("/delete/{id}")
     String delete(@PathVariable Long id) {
         projectRepository.deleteById(id);

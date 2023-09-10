@@ -7,23 +7,22 @@ import jakarta.persistence.*;
 public class Role {
 
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(length = 20, nullable = false,unique = true)
     private RoleType name;
 
-    public Role() {
-
-    }
 
     public Role(RoleType name){
         this.name = name;
     }
 
+    public Role() {
+
+    }
     public RoleType getName() {
         return name;
     }

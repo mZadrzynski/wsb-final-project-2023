@@ -19,7 +19,6 @@ public class IssueController {
 
     private final ProjectRepository projectRepository;
     private final IssueRepository issueRepository;
-
     private final PersonRepository personRepository;
 
 

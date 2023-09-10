@@ -17,10 +17,10 @@ public class Project {
     private Long id;
 
     @Column(nullable = false)
-    private String Name;
+    private String name;
 
     @Column(nullable = false, unique = true)
-    private String Code;
+    private String code;
 
     @Column(columnDefinition = "TEXT")
     private String description;
