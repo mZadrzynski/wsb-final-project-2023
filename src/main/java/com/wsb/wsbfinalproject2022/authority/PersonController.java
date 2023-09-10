@@ -86,15 +86,15 @@ public class PersonController {
         return modelAndView;
     }
 
-//    @GetMapping("/account/{id}")
-//    ModelAndView account(@ModelAttribute Long id) {
-//        ModelAndView modelAndView = new ModelAndView("users/account");
-//
-//        Person person = personRepository.findById(id).orElse(null);
-//        modelAndView.addObject("roles", roleRepository.findAll());
-//        modelAndView.addObject("person", person);
-//        return modelAndView;
-//    }
+    @GetMapping("/account/{id}")
+    ModelAndView account(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("users/create");
+
+        Person person = personRepository.findById(id).orElse(null);
+        modelAndView.addObject("roles", roleRepository.findAll());
+        modelAndView.addObject("person", person);
+        return modelAndView;
+    }
 
     protected void savePerson(Person person) {
         String hashedPassword = new BCryptPasswordEncoder().encode(person.password);
