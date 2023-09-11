@@ -16,15 +16,12 @@ public class IssueController {
     private final ProjectRepository projectRepository;
     private final IssueRepository issueRepository;
     private final PersonRepository personRepository;
-    private final IssueService issueService;
 
 
-
-    public IssueController(ProjectRepository projectRepository, IssueRepository issueRepository, PersonRepository personRepository, IssueService issueService) {
+    public IssueController(ProjectRepository projectRepository, IssueRepository issueRepository, PersonRepository personRepository) {
         this.projectRepository = projectRepository;
         this.issueRepository = issueRepository;
         this.personRepository = personRepository;
-        this.issueService = issueService;
     }
 
     @GetMapping("/create")
@@ -65,9 +62,13 @@ public class IssueController {
     @GetMapping("/list")
     ModelAndView list(@ModelAttribute IssueFilter filter) {
         ModelAndView modelAndView = new ModelAndView("issues/list");
-        modelAndView.addObject("issues", issueRepository.findAll());
+        modelAndView.addObject("issues", issueRepository.findAll(filter.buildQuery()));
         modelAndView.addObject("persons",personRepository.findAll());
+        modelAndView.addObject("projects",projectRepository.findAll());
         modelAndView.addObject("filter", filter);
+        modelAndView.addObject("statuses", IssueStatus.values());
         return modelAndView;
     }
+
+
 }

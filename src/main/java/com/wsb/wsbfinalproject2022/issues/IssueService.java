@@ -7,6 +7,7 @@ import com.wsb.wsbfinalproject2022.projects.ProjectFilter;
 import com.wsb.wsbfinalproject2022.projects.ProjectRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +31,9 @@ public class IssueService {
         this.issueRepository = issueRepository;
     }
 
-
+    public List<Issue> findAll(IssueFilter filter) {
+        return issueRepository.findAll(filter.buildQuery());
+    }
     public List<Issue> findAll() {
         return issueRepository.findAll();
     }

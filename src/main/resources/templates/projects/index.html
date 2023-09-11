@@ -26,26 +26,12 @@
 
                     <form th:action="@{/projects}" th:object="${filter}" class="row">
                         <div class="col">
-                            <input th:field="*{name}"
-                                   class="form-control" id="search"/>
-                        </div>
-                        <div class="col">
-                            <button class="btn btn-secondary" type="submit" th:text="#{common.search}"></button>
-                        </div>
-                        <div clas="col">
-                            <select th:field="*{creator}"
-                                    class="form-control">
-                                <option th:value="${null}" th:text="#{project.creator}"></option>
-                                <option th:each ="person : ${creators}"
-                                        th:value="${person.id}"
-                                        th:text="${person.username}"></option>
-                            </select>
-                        </div>
-                        <div class="col">
                             <input th:field="*{globalSearch}"
                             class="form-control"
                             th:placeholder="common.globalSearch"/>
-
+                        </div>
+                        <div class="mb3">
+                            <button class="btn btn-secondary" type="submit" th:text="#{common.search}"></button>
                         </div>
                         <div class="col">
                             <a th:href="@{/projects}" class="btn btn-secondary" th:text="#{common.clear}"></a>
