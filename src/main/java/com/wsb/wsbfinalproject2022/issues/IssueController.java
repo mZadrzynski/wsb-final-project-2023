@@ -2,6 +2,7 @@ package com.wsb.wsbfinalproject2022.issues;
 
 
 import com.wsb.wsbfinalproject2022.authority.PersonRepository;
+import com.wsb.wsbfinalproject2022.mails.EmailSenderService;
 import com.wsb.wsbfinalproject2022.projects.ProjectFilter;
 import com.wsb.wsbfinalproject2022.projects.ProjectRepository;
 import org.springframework.data.domain.Sort;
@@ -39,6 +40,7 @@ public class IssueController {
     String save(@ModelAttribute Issue issue) {
         Boolean isNew = issue.getId() == null;
         issueRepository.save(issue);
+        //EmailSenderService.sendEmail();
 
         if (isNew) {
             return "redirect:/projects";

@@ -22,7 +22,6 @@
         </td>
         <td>
           <form th:action="@{/issues/list}" th:object="${filter}">
-
             <div class="mb3">
               <select th:field="*{assignee}"
                       class="form-control">
@@ -58,7 +57,6 @@
             <div class="mb3">
               <button class="btn btn-secondary" type="submit" th:text="#{common.search}"></button>
             </div>
-
           </form>
         </td>
       </tr>
