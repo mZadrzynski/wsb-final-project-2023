@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/users")
@@ -86,15 +88,20 @@ public class PersonController {
         return modelAndView;
     }
 
-    @GetMapping("/account/{id}")
-    ModelAndView account(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("users/create");
+    @GetMapping("/account")
+    ModelAndView account() {
+        ModelAndView modelAndView = new ModelAndView("users/account");
 
-        Person person = personRepository.findById(id).orElse(null);
-        modelAndView.addObject("roles", roleRepository.findAll());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipal = authentication.getName();
+
+        Person person = personRepository.findByUsername(currentPrincipal);
         modelAndView.addObject("person", person);
+        modelAndView.addObject("roles", roleRepository.findAll());
+
         return modelAndView;
     }
+
 
     protected void savePerson(Person person) {
         String hashedPassword = new BCryptPasswordEncoder().encode(person.password);

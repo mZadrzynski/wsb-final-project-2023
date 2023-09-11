@@ -1,6 +1,7 @@
 package com.wsb.wsbfinalproject2022.projects;
 
 import com.wsb.wsbfinalproject2022.authority.Person;
+import com.wsb.wsbfinalproject2022.issues.Issue;
 import com.wsb.wsbfinalproject2022.projects.Project;
 import groovyjarjarpicocli.CommandLine;
 import lombok.AllArgsConstructor;
@@ -15,8 +16,6 @@ import org.springframework.data.jpa.domain.Specification;
 @AllArgsConstructor
 public class ProjectFilter {
 
-   private String name;
-   private String creator;
    private String globalSearch;
 
 
@@ -24,10 +23,7 @@ public class ProjectFilter {
         return Specification.anyOf(
                 ilike("name", globalSearch),
                 ilike("description", globalSearch),
-                ilike("code", globalSearch)
-        ).and(
-         Specification.allOf(
-                ilike("name",name)));
+                ilike("code", globalSearch));
     }
     private Specification<Project> ilike(String property, String value){
         String valueToCompare = value == null ?"" : value;

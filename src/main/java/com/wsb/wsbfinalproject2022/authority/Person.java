@@ -45,23 +45,6 @@ public class Person {
    private Set<Role> roles;
 
 
-    public Person(String email, String password, String realName) {
-        this.email = email;
-        this.password = password;
-        this.realName = realName;
-    }
-
-    private Person(String username, String email, String password, String realName, Set<Role> roles) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.realName = realName;
-        this.roles = roles;
-    }
-
-    public static Person of(String username, String email, String password, String realName, Set<Role> userRoles) {
-        return new Person(username, email, password, realName, userRoles);
-    }
     public Person() {
 
     }

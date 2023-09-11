@@ -28,7 +28,7 @@ public class ProjectController {
     ModelAndView index(@ModelAttribute ProjectFilter filter) {
         ModelAndView modelAndView = new ModelAndView("projects/index");
         modelAndView.addObject("projects", projectRepository.findAll(filter.buildQuery()));
-        modelAndView.addObject("creators", projectService.findAll());
+        modelAndView.addObject("persons", projectRepository.findAll());
         modelAndView.addObject("filter", filter);
 
         return modelAndView;
