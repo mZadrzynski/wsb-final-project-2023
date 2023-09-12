@@ -5,33 +5,35 @@ import com.wsb.wsbfinalproject2022.authority.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class EmailSenderService {
-//
-//    private final PersonRepository personRepository;
-//
-//    @Autowired
-//    private static JavaMailSender mailSender;
-//
-//    public EmailSenderService(PersonRepository personRepository) {
-//        this.personRepository = personRepository;
-//    }
-//    Person person;
-//    String toEmail = person.getEmail();
-//
 
-//    public static void sendEmail(String toEmail, String body, String subject) {
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setFrom("wsbmarcinzadrzynski@gmail.com");
-//        message.setTo(toEmail);
-//        message.setText(body);
-//        message.setSubject(subject);
-//
-//        mailSender.send(message);
-//        System.out.println("mail sent succes");
-//    }
+    @Autowired
+   private final JavaMailSender javaMailSender;
+
+    public EmailSenderService(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
+    }
+
+    public void send(String sentTo, Mail mail){
+            try {
+                SimpleMailMessage message = new SimpleMailMessage();
+                message.setFrom("wsbmarcinzadrzynski@gmail.com");
+                message.setTo(sentTo);
+                message.setText(mail.content);
+                message.setSubject(mail.subject);
+                javaMailSender.send(message);
+            } catch (Exception e) {
+                System.out.println("Wysyłanie mejla nie powiodło się " + e);
+            }
 
 
+    }
 }
+
+
+

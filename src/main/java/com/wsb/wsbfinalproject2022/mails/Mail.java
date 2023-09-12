@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Mail {
 
-    String recipient;
-    String subject;
+    String subject = "utworzyles nowe zadanie";
     String content;
 }

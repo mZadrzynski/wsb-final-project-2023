@@ -1,11 +1,13 @@
 package com.wsb.wsbfinalproject2022.issues;
 
 
+import com.wsb.wsbfinalproject2022.authority.Person;
 import com.wsb.wsbfinalproject2022.authority.PersonRepository;
 import com.wsb.wsbfinalproject2022.mails.EmailSenderService;
-import com.wsb.wsbfinalproject2022.projects.ProjectFilter;
+import com.wsb.wsbfinalproject2022.mails.Mail;
 import com.wsb.wsbfinalproject2022.projects.ProjectRepository;
-import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,11 +20,13 @@ public class IssueController {
     private final IssueRepository issueRepository;
     private final PersonRepository personRepository;
 
+    private final EmailSenderService emailSenderService;
 
-    public IssueController(ProjectRepository projectRepository, IssueRepository issueRepository, PersonRepository personRepository) {
+    public IssueController(ProjectRepository projectRepository, IssueRepository issueRepository, PersonRepository personRepository, EmailSenderService emailSenderService) {
         this.projectRepository = projectRepository;
         this.issueRepository = issueRepository;
         this.personRepository = personRepository;
+        this.emailSenderService = emailSenderService;
     }
 
     @GetMapping("/create")
@@ -33,14 +37,20 @@ public class IssueController {
         modelAndView.addObject("issue", issue);
         modelAndView.addObject("projects", projectRepository.findAll());
         modelAndView.addObject("persons",personRepository.findAll());
+
         return modelAndView;
     }
 
+
     @PostMapping("/save")
-    String save(@ModelAttribute Issue issue) {
+    String save(@ModelAttribute Issue issue, @ModelAttribute Mail mail) {
         Boolean isNew = issue.getId() == null;
         issueRepository.save(issue);
-        //EmailSenderService.sendEmail();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipal = authentication.getName();
+        Person sentTo = personRepository.findByUsername(currentPrincipal);
+        emailSenderService.send(String.valueOf(sentTo.getEmail()), mail);
 
         if (isNew) {
             return "redirect:/projects";

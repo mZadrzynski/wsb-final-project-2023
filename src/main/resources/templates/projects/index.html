@@ -9,40 +9,46 @@
 <body>
 <section layout:fragment="custom-content">
     <div class="container">
-    <h1>
-        Projekty
+    <h1 th:text="#{project.projects}">
+        Projects
     </h1>
         <table>
             <tbody>
-            <tr>
-                <td>
-                    <div class="col">
-                        <a th:href="@{/projects/create}" class="btn btn-secondary">
-                            Nowy projekt
-                        </a>
-                    </div>
-                </td>
-                <td>
 
                     <form th:action="@{/projects}" th:object="${filter}" class="row">
-                        <div class="col">
-                            <input th:field="*{globalSearch}"
-                            class="form-control"
-                            th:placeholder="common.globalSearch"/>
-                        </div>
-                        <div class="mb3">
-                            <button class="btn btn-secondary" type="submit" th:text="#{common.search}"></button>
-                        </div>
-                        <div class="col">
-                            <a th:href="@{/projects}" class="btn btn-secondary" th:text="#{common.clear}"></a>
-                        </div>
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <div class="mb3">
+                                        <a th:href="@{/projects/create}" class="btn btn-secondary">
+                                            Nowy projekt
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="col">
+                                        <input th:field="*{globalSearch}"
+                                               class="form-control"
+                                               th:placeholder="common.globalSearch"/>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="mb3">
+                                        <button class="btn btn-secondary" type="submit" th:text="#{common.search}"></button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="col">
+                                        <a th:href="@{/projects}" class="btn btn-secondary" th:text="#{common.clear}"></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
                         </form>
 
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
 
     <table class="table table-hover">
         <thead>
