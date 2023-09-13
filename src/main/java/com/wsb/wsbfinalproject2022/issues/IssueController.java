@@ -6,6 +6,7 @@ import com.wsb.wsbfinalproject2022.authority.PersonRepository;
 import com.wsb.wsbfinalproject2022.mails.EmailSenderService;
 import com.wsb.wsbfinalproject2022.mails.Mail;
 import com.wsb.wsbfinalproject2022.projects.ProjectRepository;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,6 @@ public class IssueController {
     private final ProjectRepository projectRepository;
     private final IssueRepository issueRepository;
     private final PersonRepository personRepository;
-
     private final EmailSenderService emailSenderService;
 
     public IssueController(ProjectRepository projectRepository, IssueRepository issueRepository, PersonRepository personRepository, EmailSenderService emailSenderService) {
@@ -80,6 +80,16 @@ public class IssueController {
         modelAndView.addObject("filter", filter);
         modelAndView.addObject("statuses", IssueStatus.values());
         return modelAndView;
+    }
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/delete/{id}")
+    String delete(@PathVariable Long id) {
+        try {
+            issueRepository.deleteById(id);
+        } catch (Exception e) {
+            System.out.println("nie udalo sie usunać zgloszenia " + e);
+        }
+        return "redirect:/issues/list";
     }
 
 

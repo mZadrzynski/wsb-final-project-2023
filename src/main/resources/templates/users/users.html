@@ -25,7 +25,7 @@
                 <th th:text="#{person.userName}">User Name</th>
                 <th th:text="#{person.realName}">Real Name</th>
                 <th th:text="#{person.email}">Email</th>
-                <th th:text="#{common.edit}">Edit</th>
+                <th th:text="#{common.editdelete}">Edit/Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -36,6 +36,9 @@
                 <td>
                     <a th:href="@{'/users/edit/' + ${person.id}}" class="btn btn-secondary">
                         Edytuj
+                    </a>
+                    <a th:href="@{'/users/delete/' + ${person.id}}" class="btn btn-danger">
+                        Usun
                     </a>
                 </td>
             </tr>

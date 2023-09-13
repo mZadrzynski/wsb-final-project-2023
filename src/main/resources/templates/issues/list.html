@@ -88,7 +88,7 @@
         <th th:text="#{issue.content}">Content</th>
         <th th:text="#{issue.creator}">Creator</th>
         <th th:text="#{issue.assignee}">Assignee</th>
-        <th th:text="#{issue.edit}">Edit</th>
+        <th th:text="#{common.editdelete}">Edit/Delete</th>
       </tr>
       </thead>
       <tbody>
@@ -102,6 +102,9 @@
         <td>
           <a th:href="@{'/issues/edit/' + ${issue.id}}" class="btn btn-secondary">
             Edytuj
+          </a>
+          <a th:href="@{'/issues/delete/' + ${issue.id}}" class="btn btn-danger">
+            Usun
           </a>
         </td>
       </tr>

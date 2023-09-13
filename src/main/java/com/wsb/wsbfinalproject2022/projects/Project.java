@@ -2,6 +2,7 @@ package com.wsb.wsbfinalproject2022.projects;
 
 import com.wsb.wsbfinalproject2022.authority.Person;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,6 +17,7 @@ public class Project {
     @GeneratedValue
     private Long id;
 
+    @Size(min = 5)
     @Column(nullable = false)
     private String name;
 

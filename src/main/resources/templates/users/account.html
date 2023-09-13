@@ -5,15 +5,13 @@
       xmlns:type="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
-  <title>Create User</title>
+  <title>User</title>
 
 </head>
 <body>
 <section layout:fragment="custom-content">
-  <span  th:text="${principal}"/></span>
+  Zalogowany jako: <span th:text="${person.username}"/></span>
   <span  th:text="${person.id}"/></span>
-  <span  th:text="${person.username}"/></span>
-
 
   <form th:action="@{/users/save}" th:object="${person}" method="post">
     <table class="table-sub-heading-color">
