@@ -48,6 +48,4 @@ public class ProjectControllerTest {
                 .andExpect(model().attribute("creators", Collections.emptySet()));
     }
 
-
-
 }

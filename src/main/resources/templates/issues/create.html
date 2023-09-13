@@ -53,10 +53,11 @@
             <label for="issue-content" class="form-label">
                 Opis Zgłoszenia
             </label>
-            <input type="text" th:rows="3"
+            <textarea th:rows="3"
                    th:class="'form-control '+ ${#fields.hasErrors('content') ? 'is-invalid' : ''}"
                    id="issue-content"
                    th:field="*{content}">
+            </textarea>
         </div>
         <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="text-danger"></span>
 

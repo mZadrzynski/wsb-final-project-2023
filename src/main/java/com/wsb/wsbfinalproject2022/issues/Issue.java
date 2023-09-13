@@ -3,6 +3,7 @@ package com.wsb.wsbfinalproject2022.issues;
 import com.wsb.wsbfinalproject2022.authority.Person;
 import com.wsb.wsbfinalproject2022.projects.Project;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -21,14 +22,14 @@ public class Issue {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    @Size(min = 3)
+    @Size(min = 4, max = 4)
     private String code;
 
-    @NotNull
-    @Size(min= 5)
+    @Size(min= 5, max = 25)
     private String title;
 
     @Column(columnDefinition = "TEXT")
+    @NotBlank
     private String content;
 
     @Column(nullable = false)

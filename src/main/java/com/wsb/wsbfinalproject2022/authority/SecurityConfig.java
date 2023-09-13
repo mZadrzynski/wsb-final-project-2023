@@ -22,8 +22,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-private PersonRepository personRepository;
-
     @Autowired
     UserDetailServiceImpl userDetailsService;
 
@@ -42,8 +40,8 @@ private PersonRepository personRepository;
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests().requestMatchers("/login").permitAll()
-                .and().authorizeHttpRequests().requestMatchers("/projects/**", "/logout", "/issues/**").authenticated()
-                .and().authorizeHttpRequests().requestMatchers( "/users/**").hasAuthority("ROLE_ADMIN")
+                .and().authorizeHttpRequests().requestMatchers("/projects/**", "/logout", "/issues/**","users/account","users/users").authenticated()
+                .and().authorizeHttpRequests().requestMatchers( "/users/**").hasAnyAuthority("ROLE_MENAGE_USERS","ROLE_ADMIN")
                 .and().formLogin()
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/projects", true)

@@ -3,6 +3,7 @@ package com.wsb.wsbfinalproject2022.authority;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import java.util.Set;
 
@@ -19,6 +20,7 @@ public class Person {
     private Long id;
 
     @NotBlank
+    @Size(min = 3,max = 20)
     @Column
     private String username;
 

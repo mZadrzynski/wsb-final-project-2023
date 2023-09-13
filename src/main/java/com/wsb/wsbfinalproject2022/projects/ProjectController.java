@@ -26,7 +26,7 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    //TODO: @secured
+
     @GetMapping()
     ModelAndView index(@ModelAttribute ProjectFilter filter) {
         ModelAndView modelAndView = new ModelAndView("projects/index");
@@ -37,6 +37,7 @@ public class ProjectController {
         return modelAndView;
     }
 
+    @Secured({"ROLE_MENAGE_PROJECT","ROLE_ADMIN"})
     @GetMapping("/create")
     ModelAndView create() {
         ModelAndView modelAndView = new ModelAndView("projects/create");
@@ -46,7 +47,7 @@ public class ProjectController {
         modelAndView.addObject("persons",personRepository.findAll());
         return modelAndView;
     }
-
+    @Secured({"ROLE_MENAGE_PROJECT","ROLE_ADMIN"})
     @PostMapping("/save")
     ModelAndView save(@ModelAttribute @Valid Project project, BindingResult bindingResult) {
 
@@ -62,7 +63,7 @@ public class ProjectController {
         modelAndView.setViewName("redirect:/projects");
         return modelAndView;
     }
-
+    @Secured({"ROLE_MENAGE_PROJECT","ROLE_ADMIN"})
     @GetMapping("/edit/{id}")
     ModelAndView edit(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("projects/create");
@@ -72,7 +73,7 @@ public class ProjectController {
         modelAndView.addObject("persons",personRepository.findAll());
         return modelAndView;
     }
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_MENAGE_PROJECT","ROLE_ADMIN"})
     @GetMapping("/delete/{id}")
     String delete(@PathVariable Long id) {
         try {
