@@ -5,11 +5,14 @@ import com.wsb.wsbfinalproject2022.authority.Person;
 import com.wsb.wsbfinalproject2022.authority.PersonRepository;
 import com.wsb.wsbfinalproject2022.mails.EmailSenderService;
 import com.wsb.wsbfinalproject2022.mails.Mail;
+import com.wsb.wsbfinalproject2022.projects.Project;
 import com.wsb.wsbfinalproject2022.projects.ProjectRepository;
+import jakarta.validation.Valid;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -43,20 +46,24 @@ public class IssueController {
 
 
     @PostMapping("/save")
-    String save(@ModelAttribute Issue issue, @ModelAttribute Mail mail) {
-        Boolean isNew = issue.getId() == null;
-        issueRepository.save(issue);
+    ModelAndView save(@ModelAttribute @Valid Issue issue, BindingResult bindingResult, @ModelAttribute Mail mail) {
+        ModelAndView modelAndView = new ModelAndView("issues/create");
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("issue", issue);
+            modelAndView.addObject("persons",personRepository.findAll());
+            modelAndView.addObject("projects",projectRepository.findAll());
+            return  modelAndView;
+        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipal = authentication.getName();
         Person sentTo = personRepository.findByUsername(currentPrincipal);
         emailSenderService.send(String.valueOf(sentTo.getEmail()), mail);
 
-        if (isNew) {
-            return "redirect:/projects";
-        } else {
-            return "redirect:/projects/edit/" + issue.getId();
-        }
+        issueRepository.save(issue);
+        modelAndView.setViewName("redirect:/issues/list");
+        return modelAndView;
 
     }
     @GetMapping("/edit/{id}")

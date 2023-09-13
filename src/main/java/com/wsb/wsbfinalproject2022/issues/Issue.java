@@ -21,11 +21,11 @@ public class Issue {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    @Size(min = 3)
+    @Size(min =4, max = 4)
     private String code;
 
     @NotNull
-    @Size(min= 5)
+    @Size(min= 5, max = 25)
     private String title;
 
     @Column(columnDefinition = "TEXT")
