@@ -26,8 +26,12 @@
                 <label for="project-name" class="form-label">
                     Nazwa projektu
                 </label>
-                <input type="text" class="form-control" id="project-name" th:field="*{name}">
+                <input type="text" th:class="'form-control '+ ${#fields.hasErrors('name') ? 'is-invalid' : ''}"
+                       id="project-name"
+                       th:field="*{name}">
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
             </div>
+
             <div class="mb-3">
                 <label for="project-code" class="form-label">
                     Kod

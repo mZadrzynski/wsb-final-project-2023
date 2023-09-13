@@ -10,6 +10,9 @@
 <body>
 <section layout:fragment="custom-content">
   <div class="container">
+    <h1 th:text="#{issue.issues}">
+      Issues
+    </h1>
     <table>
       <tbody>
       <tr>
@@ -22,43 +25,53 @@
         </td>
         <td>
           <form th:action="@{/issues/list}" th:object="${filter}">
-
-            <div class="mb3">
-              <select th:field="*{assignee}"
-                      class="form-control">
-                <option th:value="${null}" th:text="#{issue.assignee}"></option>
-                <option th:each="person :  ${persons}"
-                        th:value="${person.getId()}"
-                        th:text="${person.getRealName()}">
-                </option>
-              </select>
-            </div>
-            <div class="mb3">
-              <select th:field="*{project}"
-                      class="form-control">
-                <option th:value="${null}" th:text="#{project.projectname}"></option>
-                <option th:each="project :  ${projects}"
-                        th:value="${project.getId()}"
-                        th:text="${project.getName()}">
-
-                </option>
-              </select>
-            </div>
-            <div class="mb3">
-              <select th:field="*{status}"
-                      class="form-control">
-                <option th:value="${null}" th:text="#{issue.status}"></option>
-                <option th:each="status :  ${statuses}"
-                        th:value="${status}"
-                        th:text="${status}">
-
-                </option>
-              </select>
-            </div>
-            <div class="mb3">
-              <button class="btn btn-secondary" type="submit" th:text="#{common.search}"></button>
-            </div>
-
+            <table>
+              <tbody>
+              <tr>
+                <td>
+                  <div class="line">
+                    <select th:field="*{assignee}"
+                            class="form-control">
+                      <option th:value="${null}" th:text="#{issue.assignee}"></option>
+                      <option th:each="person :  ${persons}"
+                              th:value="${person.getId()}"
+                              th:text="${person.getRealName()}">
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="mb3">
+                    <select th:field="*{project}"
+                            class="form-control">
+                      <option th:value="${null}" th:text="#{project.projectname}"></option>
+                      <option th:each="project :  ${projects}"
+                              th:value="${project.getId()}"
+                              th:text="${project.getName()}">
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="mb3">
+                    <select th:field="*{status}"
+                            class="form-control">
+                      <option th:value="${null}" th:text="#{issue.status}"></option>
+                      <option th:each="status :  ${statuses}"
+                              th:value="${status}"
+                              th:text="${status}">
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="line">
+                    <button class="btn btn-secondary" type="submit" th:text="#{common.search}"></button>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
           </form>
         </td>
       </tr>
@@ -75,7 +88,7 @@
         <th th:text="#{issue.content}">Content</th>
         <th th:text="#{issue.creator}">Creator</th>
         <th th:text="#{issue.assignee}">Assignee</th>
-        <th th:text="#{issue.edit}">Edit</th>
+        <th th:text="#{common.editdelete}">Edit/Delete</th>
       </tr>
       </thead>
       <tbody>
@@ -89,6 +102,9 @@
         <td>
           <a th:href="@{'/issues/edit/' + ${issue.id}}" class="btn btn-secondary">
             Edytuj
+          </a>
+          <a th:href="@{'/issues/delete/' + ${issue.id}}" class="btn btn-danger">
+            Usun
           </a>
         </td>
       </tr>

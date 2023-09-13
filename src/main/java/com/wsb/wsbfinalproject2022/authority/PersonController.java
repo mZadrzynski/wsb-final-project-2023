@@ -81,11 +81,11 @@ public class PersonController {
     @GetMapping("/edit/{id}")
     ModelAndView edit(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("users/create");
-
         Person person = personRepository.findById(id).orElse(null);
         modelAndView.addObject("roles", roleRepository.findAll());
         modelAndView.addObject("person", person);
         return modelAndView;
+
     }
 
     @GetMapping("/account")
@@ -102,6 +102,16 @@ public class PersonController {
         return modelAndView;
     }
 
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/delete/{id}")
+    String delete(@PathVariable Long id) {
+        try {
+            personRepository.deleteById(id);
+        } catch (Exception e) {
+            System.out.println("nie udalo sie usunać uzytkownika " + e);
+        }
+        return "redirect:/users/users";
+    }
 
     protected void savePerson(Person person) {
         String hashedPassword = new BCryptPasswordEncoder().encode(person.password);

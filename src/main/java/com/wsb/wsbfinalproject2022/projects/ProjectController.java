@@ -1,8 +1,11 @@
 package com.wsb.wsbfinalproject2022.projects;
 
 import com.wsb.wsbfinalproject2022.authority.PersonRepository;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -45,15 +48,19 @@ public class ProjectController {
     }
 
     @PostMapping("/save")
-    String save(@ModelAttribute Project project) {
-        Boolean isNew = project.getId() == null;
-        projectRepository.save(project);
+    ModelAndView save(@ModelAttribute @Valid Project project, BindingResult bindingResult) {
 
-        if (isNew) {
-            return "redirect:/projects";
-        } else {
-            return "redirect:/projects/edit/" + project.getId();
-        }
+        ModelAndView modelAndView = new ModelAndView("projects/create");
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("project", project);
+            modelAndView.addObject("persons",personRepository.findAll());
+            return modelAndView;
+            }
+
+        projectRepository.save(project);
+        modelAndView.setViewName("redirect:/projects");
+        return modelAndView;
     }
 
     @GetMapping("/edit/{id}")
@@ -65,10 +72,19 @@ public class ProjectController {
         modelAndView.addObject("persons",personRepository.findAll());
         return modelAndView;
     }
-
+    @Secured("ROLE_ADMIN")
     @GetMapping("/delete/{id}")
     String delete(@PathVariable Long id) {
-        projectRepository.deleteById(id);
+        try {
+            projectRepository.deleteById(id);
+        } catch (Exception e) {
+            System.out.println("nie udalo sie usunać projektu " + e);
+        }
         return "redirect:/projects";
     }
+
+
 }
+
+
+

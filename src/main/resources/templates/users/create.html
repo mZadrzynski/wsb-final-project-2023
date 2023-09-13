@@ -33,18 +33,22 @@
                             Nazwa uzytkownika
                         </label>
                         <input type="text" class="form-control" id="user-name" th:field="*{username}">
+                        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label for="user-realName" class="form-label">
                             Imie i Nazwisko
                         </label>
                         <input type="text" class="form-control" id="user-realName" th:field="*{realName}">
+                        <span th:if="${#fields.hasErrors('realName')}" th:errors="*{realName}" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label for="user-password" class="form-label">
                             Haslo
                         </label>
                         <input type="password" class="form-control" id="user-password" th:field="*{password}">
+                        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></span>
+
                     </div>
                     <div class="mb-3">
                         <label for="user-email" class="form-label">
@@ -67,8 +71,6 @@
                     </p>
                 </div>
                 <button type="submit" class="btn btn-primary">Zapisz</button>
-
-
                 </td>
             </tr>
             </tbody>
