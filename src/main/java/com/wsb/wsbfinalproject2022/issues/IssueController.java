@@ -53,7 +53,7 @@ public class IssueController {
             modelAndView.addObject("issue", issue);
             modelAndView.addObject("persons",personRepository.findAll());
             modelAndView.addObject("projects",projectRepository.findAll());
-            return  modelAndView;
+            return modelAndView;
         }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -88,7 +88,9 @@ public class IssueController {
         modelAndView.addObject("statuses", IssueStatus.values());
         return modelAndView;
     }
-    @Secured("ROLE_ADMIN")
+
+
+    @Secured({"ROLE_MENAGE_PROJECT","ROLE_ADMIN"})
     @GetMapping("/delete/{id}")
     String delete(@PathVariable Long id) {
         try {
